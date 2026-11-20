@@ -1,0 +1,7 @@
+name: tech-lead
+version: 1.0.0
+description: Portable Hermes tech lead coordinating native OMP workers via Herdr Core.
+distribution_owned:
+  - SOUL.md
+  - skills/herdr-spec-execution/
+  - config.yaml

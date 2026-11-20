@@ -1,0 +1,12 @@
+# Machine-specific provider/model and credentials must be configured locally.
+# Keep this portable: never pin a WSL or macOS project path here.
+terminal:
+  backend: local
+  cwd: "."
+  home_mode: real
+  client_env_passthrough:
+    - HC_SCOPE
+    - HC_TERMINAL_ID
+    - HC_TERMINAL_SOCKET
+    - HC_SESSION
+    - HC_SOCKET

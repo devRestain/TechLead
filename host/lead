@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+project=$(git rev-parse --show-toplevel 2>/dev/null || pwd -P)
+project=$(cd "$project" && pwd -P)
+slug=$(printf '%s' "${project##*/}" | LC_ALL=C tr -c 'A-Za-z0-9._-' '-' | tr -s '-' | cut -c1-18)
+if command -v shasum >/dev/null 2>&1; then
+  key=$(printf '%s' "$project" | shasum -a 256 | cut -c1-8)
+else
+  key=$(printf '%s' "$project" | sha256sum | cut -c1-8)
+fi
+
+# Keep one active lead process per machine/profile. Session title is project-specific.
+hc run --bg --name tech-lead --cwd "$project" \
+  env -u HERMES_TUI_GATEWAY_URL \
+  hermes -p tech-lead -c "lead-${slug}-${key}" --create-if-missing chat \
+    -s herdr-core,herdr-spec-execution
+exec hc attach tech-lead
